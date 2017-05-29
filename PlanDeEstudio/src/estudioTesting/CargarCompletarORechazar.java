@@ -18,11 +18,11 @@ public class CargarCompletarORechazar extends ApiaAbstractClass {
 
 		PossibleValue pos1 = new PossibleValue("1", "Perfecto. Se completa la solicitud de capacitación.");
 		PossibleValue pos2 = new PossibleValue("2", "Se rechaza la solicitud de capacitación.");
-		//PossibleValue pos3 = new PossibleValue("3", "Solicitar más datos al usuario.");
+		PossibleValue pos3 = new PossibleValue("3", "Solicitar más datos al usuario.");
 
 		attCompletarORechazar.addPossibleValues(pos1);
 		attCompletarORechazar.addPossibleValues(pos2);
-		//attCompletarORechazar.addPossibleValues(pos3);
+		attCompletarORechazar.addPossibleValues(pos3);
 		
 	}
 

@@ -30,10 +30,8 @@ public class Estado extends ApiaAbstractClass {
 				String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
 				
 				for (User u : us) {
-					if (!(u.getName().contains("System"))) {
 						String mail = u.getEmail();
 						Helpers.notificarTareaPendiente(this, nombreCreador, mail, titulo);
-					}
 				}
 	}
 

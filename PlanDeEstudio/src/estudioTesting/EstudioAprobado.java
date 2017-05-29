@@ -9,6 +9,7 @@ import com.dogma.busClass.ApiaAbstractClass;
 import com.dogma.busClass.BusClassException;
 import com.dogma.busClass.object.Attribute;
 import com.dogma.busClass.object.Entity;
+import com.dogma.busClass.object.Process;
 
 public class EstudioAprobado extends ApiaAbstractClass {
 
@@ -26,6 +27,10 @@ public class EstudioAprobado extends ApiaAbstractClass {
 			ent.getAttribute("RA_FINALIZARESTUDIO").setValue("false");
 			ent.getAttribute("CONTADOR_AUX").setValue(0.0);
 			ent.getAttribute("CONTADOR_AUX2").setValue(0.0);
+			
+			
+
+			
 		}
 	}
 

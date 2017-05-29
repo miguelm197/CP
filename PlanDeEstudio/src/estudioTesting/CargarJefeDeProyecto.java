@@ -15,10 +15,12 @@ public class CargarJefeDeProyecto extends ApiaAbstractClass {
 		PossibleValue fede = new PossibleValue("Federico", "Federico");
 		PossibleValue jorge = new PossibleValue("Jorge", "Jorge");
 		PossibleValue jose = new PossibleValue("José", "José");
+		PossibleValue miguel = new PossibleValue("Miguel", "Miguel");
 		
 		attJefes.addPossibleValues(fede);
 		attJefes.addPossibleValues(jorge);
 		attJefes.addPossibleValues(jose);
+		attJefes.addPossibleValues(miguel);
 		
 	}
 

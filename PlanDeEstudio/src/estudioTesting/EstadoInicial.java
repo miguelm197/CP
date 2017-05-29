@@ -12,6 +12,7 @@ import com.dogma.busClass.object.EntityFilter;
 import com.dogma.busClass.object.Identifier;
 import com.dogma.busClass.object.Task;
 import com.dogma.busClass.object.User;
+import com.dogma.busClass.object.Process;
 
 public class EstadoInicial extends ApiaAbstractClass {
 
@@ -39,10 +40,7 @@ public class EstadoInicial extends ApiaAbstractClass {
 		int nroEntQueCreoUsuario = entQueCreoUsuario.size();
 
 		if (nroEntQueCreoUsuario < 3) {
-
-			com.dogma.busClass.object.Process currProc = this.getCurrentProcess();
-			Task currTarea = this.getCurrentTask();
-
+			
 			// Seteo el usuario creador
 			currEnt.getAttribute("P2_EST_USUARIOCREADOR_STR").setValue(currEnt.getCreator().getName());
 			currEnt.getAttribute("P2_EST_SOLICITADOPOR").setValue(currEnt.getCreator().getName());
@@ -59,21 +57,14 @@ public class EstadoInicial extends ApiaAbstractClass {
 			String diaSolicitud = fechaSolicitud.substring(8, 10);
 			String mesSolicitud = fechaSolicitud.substring(5, 7);
 
-			currEnt.getAttribute("TITULO_SOL_ESTUDIO")
-					.setValue("Capacitación " + tema + " - " + nombreCreador + " - " + diaSolicitud + "/" + mesSolicitud);
+			currEnt.getAttribute("TITULO_SOL_ESTUDIO").setValue("Capacitación " + tema + " - " + nombreCreador + " - " + diaSolicitud + "/" + mesSolicitud);
 			
 			//Pongo que el proceso no está finalizado
 			currEnt.getAttribute("PROCESO_FINALIZADO_EST_STR").setValue("NO");
 
-			// Notifico al usuario creador que inició el proceso de solicitud
-			String mail = this.getUser("mmerelli").getEmail();
-			String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
-			String jefe = currEnt.getAttribute("SE_JEFEPROYECTO").getValueAsString();
-			String fechaInicio = currEnt.getAttribute("SE_FECHAINICIO").getValueAsString().substring(0, 10);
-			String fechaFin = currEnt.getAttribute("SE_FECHAFIN").getValueAsString().substring(0, 10);
-			String comentarios = currEnt.getAttribute("SE_COMENTARIOS").getValueAsString();
-
-			 Helpers.notificarInicioProcesoEst(this, nombreCreador, mail, titulo, tema, jefe, fechaInicio, fechaFin, comentarios);
+		
+			 
+			 
 		} else {
 			throw new BusClassException("Actualmente están en proceso tres solicitudes suyas. Debe aguardar"
 					+ " que finalice al menos una para poder iniciar una nueva.");

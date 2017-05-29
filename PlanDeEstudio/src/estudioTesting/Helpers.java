@@ -10,15 +10,18 @@ import com.dogma.busClass.BusClassException;
 import com.dogma.busClass.object.Attribute;
 
 public class Helpers {
-
-	public static void notificarInicioProcesoEst(ApiaAbstractClass apia, String nombreCreador, String mail,
-			String titulo, String tema, String jefe, String fechaInicio, String fechaFin, String comentarios)
+	
+	static boolean notificarInicioProceso = true;
+	
+	
+	//INICIO DE PROCESO
+	public static void notificarInicioProcesoEst(ApiaAbstractClass apia, String nombreCreador, String mail, String titulo, String tema, String jefe, String fechaInicio, String fechaFin, String comentarios)
 			throws BusClassException {
 
-		if (apia.getCurrentEnvironment().compareTo("DEFAULT") != 0) {
+		if (notificarInicioProceso) {
 
 			String[] mailEnviar = { mail };
-			apia.sendMail(mailEnviar, "Solicitud de capacitación iniciada",
+			apia.sendMail(mailEnviar, "TESTING - Solicitud de capacitación para " + nombreCreador + " iniciada ",
 					"Se ha creado correctamente la solicitud de capacitación: " + titulo + ".<br>" + "Tema de interés: "
 							+ tema + ".<br>" + "Jefe de proyecto: " + jefe + ".<br>"
 							+ "Fecha de inicio de estudio tentativa: " + fechaInicio + ".<br>"
@@ -27,6 +30,10 @@ public class Helpers {
 		}
 	}
 
+	
+	
+	
+	
 	
 	public static void notificarTareaPendiente(ApiaAbstractClass apia, String nombreCreador, String mail, String titulo)
 			throws BusClassException {
@@ -41,33 +48,31 @@ public class Helpers {
 		}
 	}
 
-	public static void notificarFinalizacionProc(ApiaAbstractClass apia, String nombreCreador, String mailCreador,
-			String mailJefeP, String titulo) throws BusClassException {
-		if (apia.getCurrentEnvironment().compareTo("DEFAULT") != 0) {
+	
+	
+	
+	
+	
+	
+	
+	public static void notificarFinalizacionProc(ApiaAbstractClass apia, String nombreCreador, String mailCreador,	String mailJefeP, String titulo) throws BusClassException {
 
-			String[] mailEnviar = { mailCreador };
-			String[] mailEnviarJefeP = { mailJefeP };
+		//Se deshabilitò el envìo de notificaciones por acà, se cambiò a la misma clase Finalizacion
+		
+	}
 
-			apia.sendMail(mailEnviar, "Capacitación finalizada", "Ha finalizado el proceso " + titulo
-					+ " correctamente. " + "<br><br>Gracias por usar Apia.<br>Saludos.");
-			apia.sendMail(mailEnviarJefeP, "Capacitación finalizada", "Ha finalizado correctamente el proceso: "
-					+ titulo + "." + "<br><br>Gracias por usar Apia.<br>Saludos.");
-		}
+	public static void notificarFinalizacionCR(ApiaAbstractClass apia, String nombreCreador, String mailCreador,String mailJefeP, String titulo, String comentarios) throws BusClassException {
+		
+		//Se deshabilitò el envìo de notificaciones por acà, se cambiò a la misma clase FinalizacionCR
+		
 	}
 	
-	public static void notificarFinalizacionCR(ApiaAbstractClass apia, String nombreCreador, String mailCreador,
-			String mailJefeP, String titulo, String comentarios) throws BusClassException {
-		if (apia.getCurrentEnvironment().compareTo("DEFAULT") != 0) {
-
-			String[] mailEnviar = { mailCreador };
-			String[] mailEnviarJefeP = { mailJefeP };
-
-			apia.sendMail(mailEnviar, "Capacitación rechazada", "Se rechazó tu solicitud de capacitación correspondiente al proceso " + titulo
-					+ ".<br>Comentarios: " + comentarios + "<br><br>Gracias por usar Apia.<br>Saludos.");
-			apia.sendMail(mailEnviarJefeP, "Capacitación rechazada", "Has rechazado la solicitud de capacitación correspondiente al proceso: "
-					+ titulo + "." + "<br><br>Gracias por usar Apia.<br>Saludos.");
-		}
-	}
+	
+	
+	
+	
+	
+	
 	
 	public static void notificarSolicitoMasDatos(ApiaAbstractClass apia, String nombreCreador, String mailCreador,
 			String mailJefeP, String titulo, String comentarios) throws BusClassException {
@@ -78,6 +83,7 @@ public class Helpers {
 
 			apia.sendMail(mailEnviar, "Se solicitaron más datos", "Se ha solicitado que ingreses/modifiques datos de la solicitud de capacitación que has realizado, correspondiente al proceso " + titulo
 					+ ".<br>Comentarios del jefe de proyecto: " + comentarios + "<br>Tiene pendiente la tarea en Apia.<br><br>Muchas gracias.<br>Saludos,<br>Apia.");
+			
 			apia.sendMail(mailEnviarJefeP, "Solicitaste más datos", "Has solicitado que se ingresen/modifiquen los datos de la solicitud de capacitación correspondiente al proceso: "
 					+ titulo + "." + "<br><br>Gracias por usar Apia.<br>Saludos.");
 		}

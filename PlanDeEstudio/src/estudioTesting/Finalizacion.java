@@ -32,8 +32,6 @@ public class Finalizacion extends ApiaAbstractClass {
 
 		Attribute attFecha = currEnt.getAttribute("ESTUDIO_FECHA_FIN_STR");
 		Attribute checkFin = currEnt.getAttribute("RA_FINALIZARESTUDIO");
-		Attribute combo = currEnt.getAttribute("P2_CR_COMPLETARORECHAZAR");
-		String comentarios = currEnt.getAttribute("P2_CR_COMENTARIOS").getValueAsString();
 		String estado = currEnt.getAttribute("ESTADO_ACTUAL_ESTUDIO").getValueAsString();
 
 		String mailUsuarioCreador = usuarioCreador.getEmail();

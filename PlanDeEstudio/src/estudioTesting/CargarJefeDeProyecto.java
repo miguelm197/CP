@@ -10,17 +10,23 @@ public class CargarJefeDeProyecto extends ApiaAbstractClass {
 	@Override
 	protected void executeClass() throws BusClassException {
 		// TODO Auto-generated method stub
-		Attribute attJefes = this.getCurrentEntity().getAttribute("SE_JEFEPROYECTO");
+
+//		-----------------------------------------------------------------------
+//		DESHABILITADO EN APIA
+//		-----------------------------------------------------------------------
+
 		
-		PossibleValue fede = new PossibleValue("Federico", "Federico");
-		PossibleValue jorge = new PossibleValue("Jorge", "Jorge");
-		PossibleValue jose = new PossibleValue("José", "José");
-		PossibleValue miguel = new PossibleValue("Miguel", "Miguel");
-		
-		attJefes.addPossibleValues(fede);
-		attJefes.addPossibleValues(jorge);
-		attJefes.addPossibleValues(jose);
-		attJefes.addPossibleValues(miguel);
+//		Attribute attJefes = this.getCurrentEntity().getAttribute("SE_JEFEPROYECTO");
+//		
+//		PossibleValue fede = new PossibleValue("Federico", "Federico");
+//		PossibleValue jorge = new PossibleValue("Jorge", "Jorge");
+//		PossibleValue jose = new PossibleValue("José", "José");
+//		PossibleValue miguel = new PossibleValue("Miguel", "Miguel");
+//		
+//		attJefes.addPossibleValues(fede);
+//		attJefes.addPossibleValues(jorge);
+//		attJefes.addPossibleValues(jose);
+//		attJefes.addPossibleValues(miguel);
 		
 	}
 

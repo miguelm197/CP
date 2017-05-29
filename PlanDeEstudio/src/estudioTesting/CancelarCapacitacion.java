@@ -1,5 +1,7 @@
 package estudioTesting;
 
+import java.util.Collection;
+
 import com.dogma.busClass.ApiaAbstractClass;
 import com.dogma.busClass.BusClassException;
 import com.dogma.busClass.object.Attribute;
@@ -13,31 +15,42 @@ public class CancelarCapacitacion extends ApiaAbstractClass {
 
 		Entity currEnt = this.getCurrentEntity();
 		Attribute attFecha = currEnt.getAttribute("ESTUDIO_FECHA_FIN_STR");
-
-		String mail = this.getUser("ppi").getEmail();
 		String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
+		String encargado = currEnt.getAttribute("SE_JEFEPROYECTO").getValueAsString();
+		User usuarioCreador = currEnt.getCreator();
+		String mailUsuarioCreador = usuarioCreador.getEmail();
+		Collection<User> usEncargado = this.getGroup(encargado).getUsers();
+		String[] EmailCreador = { mailUsuarioCreador };
 
-		User creador = currEnt.getCreator();
-		String nombreCreador = creador.getName();
+		// -------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------
 
-		// Obtengo jefe de proyecto
-		User jefeProyecto = null;
-		// this.addMessage(this.getCurrentEntity().getAttribute("SE_JEFEPROYECTO").getValueAsString());
-		String valuejefeProy = this.getCurrentEntity().getAttribute("SE_JEFEPROYECTO").getValueAsString();
-		if (valuejefeProy.compareTo("José") == 0)
-			jefeProyecto = this.getUser("jrussomano");
-		else if (valuejefeProy.compareTo("Jorge") == 0)
-			jefeProyecto = this.getUser("jartave");
-		else if (valuejefeProy.compareTo("Federico") == 0)
-			jefeProyecto = this.getUser("froda");
+		boolean notificarA = true; // NOTIFICAR AL CREADOR
+		boolean notificarB = true; // NOTIFICAR AL JEFE DE PROYECTO
 
-		String mailJefeProy = this.getUser("ppi").getEmail();
+		// -------------------------------------------------------------------------------------------------------
+		// -------------------------------------------------------------------------------------------------------
 
+		
+		
 		Helpers.setFecha(this, attFecha);
 		currEnt.getAttribute("PROCESO_FINALIZADO_EST_STR").setValue("SI");
 		currEnt.getAttribute("ESTADO_ACTUAL_ESTUDIO").setValue("Cancelado");
-		Helpers.notificarCancelacionProc(this, nombreCreador, mail, mailJefeProy, titulo);
 
+		if (notificarA) {
+			this.sendMail(EmailCreador, "TESTING_Capacitación cancelada", "Se ha cancelado el proceso " + titulo
+					+ " correctamente. " + "<br><br>Gracias por usar Apia.<br>Saludos.");
+		}
+
+		if (notificarB) {
+			for (User u : usEncargado) {
+				String mail = u.getEmail();
+				String[] mailEnviar = { mail };
+				this.sendMail(mailEnviar, "TESTING_Capacitación cancelada", "Se ha cancelado correctamente el proceso: "
+					+ titulo + "." + "<br><br>Gracias por usar Apia.<br>Saludos.");
+
+			}
+		}
 	}
 
 }

@@ -30,7 +30,6 @@ public class SetTiempoDisponibleScheduler extends ApiaAbstractClass {
 
 		Collection<Identifier> entidades = this.findEntities("PLAN_ESTUDIO", colEf);
 		int nEnt = entidades.size();
-		// this.addMessage("Nro. de entidades encontradas: " + nEnt);
 
 		if (nEnt > 0) {
 			Date fechaActual = new Date();
@@ -44,59 +43,94 @@ public class SetTiempoDisponibleScheduler extends ApiaAbstractClass {
 					Date fechaInicio = (Date) attFechaInicio.getValue();
 					Date fechaFin = (Date) attFechaFin.getValue();
 
-					// this.addMessage("TD antes
-					// "+ent.getAttribute("RA_TIEMPODISPONIBLE").getValueAsString());
 					ent.getAttribute("RA_TIEMPODISPONIBLE").setValue(Helpers.diferenciaEnHoras(fechaFin, fechaActual));
-					// this.addMessage("TD después
-					// "+ent.getAttribute("RA_TIEMPODISPONIBLE").getValueAsString());
 
 					// Obtengo usuario creador
 					User usuarioCreador = ent.getCreator();
-					// Nombre, email de creador
 					String nombreCreador = usuarioCreador.getName();
-					String mailCreador = this.getUser("ppi").getEmail();
-					String[] mailUsuarioCreador = { this.getUser("ppi").getEmail() };
 
 					// Obtengo jefe de proyecto
-					User jefeProyecto = null;
-					String valuejefeProy = ent.getAttribute("SE_JEFEPROYECTO").getValueAsString();
-					if (valuejefeProy.compareTo("José") == 0)
-						jefeProyecto = this.getUser("jrussomano");
-					else if (valuejefeProy.compareTo("Jorge") == 0)
-						jefeProyecto = this.getUser("jartave");
-					else if (valuejefeProy.compareTo("Federico") == 0)
-						jefeProyecto = this.getUser("froda");
-
-					String nombreJefeProy = jefeProyecto.getName();
-					String mailJefeP = this.getUser("ppi").getEmail();
-					String[] mailJefeProy = { this.getUser("ppi").getEmail() };
+					String encargado = ent.getAttribute("SE_JEFEPROYECTO").getValueAsString();
+					Collection<User> usEncargado = this.getGroup(encargado).getUsers();
+					String mailUsuarioCreador = usuarioCreador.getEmail();
+					String[] EmailCreador = { mailUsuarioCreador };
 
 					String titulo = ent.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
 					Double td = (Double) ent.getAttribute("RA_TIEMPODISPONIBLE").getValue();
 
-					Double mitadInicioFin = (Double) Helpers.diferenciaEnHoras(fechaFin, fechaInicio)/2;
+					Double mitadInicioFin = (Double) Helpers.diferenciaEnHoras(fechaFin, fechaInicio) / 2;
 					Date fechaMitad = Helpers.sumarRestarHorasFecha(fechaInicio, mitadInicioFin.intValue());
+
 					
-					if (this.getCurrentEnvironment().compareTo("DEFAULT") == 0 && nombreCreador.compareTo("System Administrator") != 0) {
+					
+					//-------------------------------------------------------------------------------------------------------
+					//-------------------------------------------------------------------------------------------------------
+					
+					boolean notificarA = true; // NOTIFICAR AL JEFE DE PROYECTO QUE SE ACABÓ EL TIEMPO
+					boolean notificarB = true; // NOTIFICAR AL USUARIO CREADOR  QUE SE ACABÓ EL TIEMPO
+					boolean notificarC = true; // NOTIFICAR AL USUARIO CREADOR  QUE SE FINALIZÓ LA MITAD DE LA CAPACITACIÓN
+					boolean notificarD = true; // NOTIFICAR AL JEFE DE PROYECTO QUE SE FINALIZÓ LA MITAD DE LA CAPACITACIÓN
+					boolean notificarE = true; // NOTIFICAR AL USUARIO CREADOR  QUE DEBE COMPLETAR EL AVANCE EN APIA
+					
+					//-------------------------------------------------------------------------------------------------------
+					//-------------------------------------------------------------------------------------------------------
+					
+					
+
+					if (this.getCurrentEnvironment().compareTo("DEFAULT") == 0
+							&& nombreCreador.compareTo("System Administrator") != 0) {
 						if (td == 0) {
-							this.sendMail(mailJefeProy, "Tiempo terminado para realizar capacitación",
-									"Hola " + nombreJefeProy + ",<br><br>Le informamos que ha terminado el tiempo de "
-											+ nombreCreador
-											+ " para realizar su capacitación, correspondiente al proceso: " + titulo
-											+ ".<br><br>Saludos,<br>Apia.");
-							this.sendMail(mailUsuarioCreador, "Tiempo terminado para realizar capacitación",
-									"Le informamos "
-											+ "que ha terminado el tiempo para realizar su capacitación, correspondiente al proceso "
-											+ titulo + ".<br><br>Saludos,<br>Apia.");
+
+							if (notificarA) {
+								for (User u : usEncargado) {
+									String mail = u.getEmail();
+									String nombreJefeProy = u.getName();
+									String[] mailEnviar = { mail };
+									this.sendMail(mailEnviar, "TESTING_Tiempo terminado para realizar capacitación",
+											"Hola " + nombreJefeProy
+													+ ",<br><br>Le informamos que ha terminado el tiempo de "
+													+ nombreCreador
+													+ " para realizar su capacitación, correspondiente al proceso: "
+													+ titulo + ".<br><br>Saludos,<br>Apia.");
+								}
+							}
+
+							if (notificarB) {
+								this.sendMail(EmailCreador, "TESTING_Tiempo terminado para realizar capacitación",
+										"Le informamos "
+												+ "que ha terminado el tiempo para realizar su capacitación, correspondiente al proceso "
+												+ titulo + ".<br><br>Saludos,<br>Apia.");
+							}
+
 						}
-						
-						else if(fechaActual.compareTo(fechaMitad) >= 0){
-							Helpers.notificarMitadCalendario(this, nombreCreador, mailCreador, mailJefeP, titulo);
+
+						else if (fechaActual.compareTo(fechaMitad) >= 0) {
+
+							if (notificarC) {
+								this.sendMail(EmailCreador, "TESTING_Mitad de la capacitación finalizada",
+										"Según los días que se han usado en la capacitación, aproximadamente la mitad del proceso "
+												+ titulo + " ha finalizado correctamente."
+												+ "<br><br>Gracias por usar Apia.<br>Saludos.");
+							}
+
+							if (notificarD) {
+								for (User u : usEncargado) {
+									String mail = u.getEmail(); 
+									String[] mailEnviar = { mail };
+									this.sendMail(mailEnviar, "TESTING_Mitad de la capacitación finalizada",
+											"Según los días que se han usado en la capacitación, aproximadamente la mitad del proceso "
+													+ titulo + " ha finalizado correctamente."
+													+ "<br><br>Gracias por usar Apia.<br>Saludos.");
+
+								}
+							}
+
 						}
 
 						else if (td % 240 == 0 || td == 120) {
-							if (fechaActual.compareTo(fechaInicio) >= 0) {
-								this.sendMail(mailUsuarioCreador, "Debe completar el avance en Apia",
+
+							if (notificarE) {
+								this.sendMail(EmailCreador, "TESTING_Debe completar el avance en Apia",
 										"Le informamos "
 												+ "que debe ingresar a Apia y completar el avance de su estudio, correspondiente al proceso "
 												+ titulo + ".<br><br>Muchas gracias.<br>Saludos,<br>Apia.");
@@ -105,8 +139,6 @@ public class SetTiempoDisponibleScheduler extends ApiaAbstractClass {
 					}
 				}
 			}
-
 		}
 	}
-
 }

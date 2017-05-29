@@ -18,6 +18,14 @@ public class NotificarAprobacionEstudio extends ApiaAbstractClass {
 		User usuarioCreador = currEnt.getCreator();
 		String nombreUsuarioCreador = usuarioCreador.getName();
 
+		//-------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------
+		
+		boolean notificarA = true; //NOTIFICAR AL CREADOR
+		boolean notificarB = true; //NOTIFICAR AL JEFE DE PROYECTO
+		
+		//-------------------------------------------------------------------------------------------------------
+		//-------------------------------------------------------------------------------------------------------
 		
 		String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
 		String fechaInicio = currEnt.getAttribute("ECS_FECHAINICIO").getValueAsString();
@@ -29,25 +37,26 @@ public class NotificarAprobacionEstudio extends ApiaAbstractClass {
 
 		String[] EmailCreador = { mailUsuarioCreador };
 
-		
-		this.sendMail(EmailCreador, "TESTING_Solicitud de estudio aprobada",
-				"Hola " + nombreUsuarioCreador + ",<br><br>Tu solicitud de estudio del proceso " + titulo
-				+ " ha sido aprobada. Comenzarías a estudiar el día " + fechaInicio.substring(0, 10)
-				+ ".<br>Comentarios de aprobador: " + comentariosAprob + "<br><br>Saludos,<br>Apia.");
-		
-		
-		
-		
-		for (User u : usEncargado) {
-			String mail = u.getEmail();
-			String nombreJefeProy = u.getName();
-			String[] mailEnviar = { mail };
-			this.sendMail(mailEnviar, "TESTING_Solicitud de estudio aprobada",
-					"Hola " + nombreJefeProy + ",<br><br>La solicitud de estudio que solicitó " + nombreUsuarioCreador
-					+ ", correspondiente al proceso " + titulo + " ha sido aprobada.<br>"
-					+ " Comenzaría a estudiar el día " + fechaInicio.substring(0, 10)
-					+ ".<br>Comentarios de aprobador: " + comentariosAprob + "<br><br>Saludos,<br>Apia.");
-	
+		if (notificarA){
+						this.sendMail(EmailCreador, "TESTING_Solicitud de estudio aprobada",
+					"Hola " + nombreUsuarioCreador + ",<br><br>Tu solicitud de estudio del proceso " + titulo
+					+ " ha sido aprobada. Comenzarías a estudiar el día " + fechaInicio.substring(0, 10)
+					+ ".<br>Comentarios de aprobador: " + comentariosAprob + "<br><br>Saludos,<br>Apia.");		
+		}
+
+		if (notificarB) {
+			for (User u : usEncargado) {
+				String mail = u.getEmail();
+				String nombreJefeProy = u.getName();
+				String[] mailEnviar = { mail };
+				this.sendMail(mailEnviar, "TESTING_Solicitud de estudio aprobada",
+						"Hola " + nombreJefeProy + ",<br><br>La solicitud de estudio que solicitó "
+								+ nombreUsuarioCreador + ", correspondiente al proceso " + titulo
+								+ " ha sido aprobada.<br>" + " Comenzaría a estudiar el día "
+								+ fechaInicio.substring(0, 10) + ".<br>Comentarios de aprobador: " + comentariosAprob
+								+ "<br><br>Saludos,<br>Apia.");
+
+			}
 		}
 
 

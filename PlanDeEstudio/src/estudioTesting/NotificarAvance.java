@@ -15,12 +15,9 @@ public class NotificarAvance extends ApiaAbstractClass {
 
 		Entity currEnt = this.getCurrentEntity();
 		User usuarioCreador = currEnt.getCreator();
-		String nombreUsuarioCreador = usuarioCreador.getName();
 
 		
 		String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
-		String fechaInicio = currEnt.getAttribute("ECS_FECHAINICIO").getValueAsString();
-		String comentariosAprob = currEnt.getAttribute("EAS_COMENTARIOS").getValueAsString();
 		String encargado = currEnt.getAttribute("SE_JEFEPROYECTO").getValueAsString();
 		
 		String avance = currEnt.getAttribute("RA_AVANCE").getValueAsString();

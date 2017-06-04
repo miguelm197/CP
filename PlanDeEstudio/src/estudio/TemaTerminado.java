@@ -1,6 +1,5 @@
 package estudio;
 
-import java.util.Collection;
 
 import com.dogma.busClass.ApiaAbstractClass;
 import com.dogma.busClass.BusClassException;

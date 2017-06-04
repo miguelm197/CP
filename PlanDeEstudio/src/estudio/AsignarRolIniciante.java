@@ -16,7 +16,7 @@ public class AsignarRolIniciante extends ApiaAbstractClass {
 	 */
 	protected void executeClass() throws BusClassException {
 
-		// Obtiene entidad
+	/*	// Obtiene entidad
 
 		Entity currEnt = this.getCurrentEntity();
 
@@ -32,6 +32,6 @@ public class AsignarRolIniciante extends ApiaAbstractClass {
 			com.dogma.busClass.object.Process proc = this.getCurrentProcess();
 			String iniciante = proc.getCreator().getLogin();
 			proc.setRol("INICIADOR", iniciante);
-		}
+		}*/
 	}
 }

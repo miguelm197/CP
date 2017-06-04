@@ -101,7 +101,7 @@ public class Helpers {
 
 	public static void setFecha(ApiaAbstractClass apia, Attribute attFecha) throws BusClassException {
 		String f = Helpers.getFechaActual();
-		// apia.addMessage(f);
+		apia.addMessage("fecha actual:" + f);
 		attFecha.setValue(f);
 	}
 

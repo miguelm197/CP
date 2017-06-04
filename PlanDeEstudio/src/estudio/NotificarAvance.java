@@ -1,5 +1,7 @@
 package estudio;
 
+import java.util.Collection;
+
 import com.dogma.busClass.ApiaAbstractClass;
 import com.dogma.busClass.BusClassException;
 import com.dogma.busClass.object.Entity;
@@ -18,45 +20,42 @@ public class NotificarAvance extends ApiaAbstractClass {
 	 */
 	@Override
 	protected void executeClass() throws BusClassException {
+		
 
 		Entity currEnt = this.getCurrentEntity();
-		String avance = currEnt.getAttribute("RA_AVANCE").getValueAsString();
-		String coment = currEnt.getAttribute("RA_COMENTARIOS").getValueAsString();
-		Double td = (Double) currEnt.getAttribute("RA_TIEMPODISPONIBLE").getValue();
-
-		// Obtengo usuario creador
 		User usuarioCreador = currEnt.getCreator();
 
-		// Obtengo jefe de proyecto
-		User jefeProyecto = null;
-		String valuejefeProy = currEnt.getAttribute("SE_JEFEPROYECTO").getValueAsString();
-		if (valuejefeProy.compareTo("José") == 0)
-			jefeProyecto = this.getUser("jrussomano");
-		else if (valuejefeProy.compareTo("Jorge") == 0)
-			jefeProyecto = this.getUser("jartave");
-		else if (valuejefeProy.compareTo("Federico") == 0)
-			jefeProyecto = this.getUser("froda");
-
-		// Nombre, email de creador y jefe de proyecto
-		String nombreCreador = usuarioCreador.getName();
-		String[] mailUsuarioCreador = { usuarioCreador.getEmail() };
-
-		String nombreJefeProy = jefeProyecto.getName();
-		String[] mailJefeProy = { jefeProyecto.getEmail() };
-
+		
 		String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
+		String encargado = currEnt.getAttribute("SE_JEFEPROYECTO").getValueAsString();
+		
+		String avance = currEnt.getAttribute("RA_AVANCE").getValueAsString();
+		String coment = currEnt.getAttribute("RA_COMENTARIOS").getValueAsString();
+		
+		
+		String mailUsuarioCreador = usuarioCreador.getEmail();
+		Collection<User> usEncargado = this.getGroup(encargado).getUsers();
 
-		if (this.getCurrentEnvironment().compareTo("DEFAULT") == 0 && nombreCreador.compareTo("System Administrator") != 0
-				&& td.intValue() != 0) {
+		String[] EmailCreador = { mailUsuarioCreador };
 
-			this.sendMail(mailUsuarioCreador, "Avance de estudio", "Has tenido el siguiente avance en el proceso "
+		
+		this.sendMail(EmailCreador, "Avance de estudio", "Has tenido el siguiente avance en el proceso "
 					+ titulo + ".<br>Avance: " + avance + "<br>Comentarios: " + coment + "<br><br>Saludos,<br>Apia");
-
-			this.sendMail(mailJefeProy, "Avance de estudio de " + nombreCreador,
-					"Hola " + nombreJefeProy + ", Le informamos que " + nombreCreador
+		
+		
+		
+		
+		for (User u : usEncargado) {
+			String mail = u.getEmail();
+			String nombreJefeProy = u.getName();
+			String[] mailEnviar = { mail };
+			this.sendMail(mailEnviar, "Avance de estudio de " + mailUsuarioCreador,
+					"Hola " + nombreJefeProy + ", Le informamos que " + mailUsuarioCreador
 							+ " ha tenido el siguiente avance en el proceso " + titulo + ".<br>Avance: " + avance
 							+ "<br>Comentarios: " + coment + "<br><br>Saludos,<br>Apia");
+	
 		}
+
 	}
 
 }

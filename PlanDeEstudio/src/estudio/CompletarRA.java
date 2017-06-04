@@ -1,5 +1,6 @@
 package estudio;
 
+import java.util.Collection;
 import java.util.Date;
 
 import com.dogma.busClass.ApiaAbstractClass;
@@ -37,21 +38,12 @@ public class CompletarRA extends ApiaAbstractClass {
 			}
 		} else {
 			// ---------------------------------------------------------------------------
-			User creador = currEnt.getCreator();
-			String nombreCreador = creador.getName();
-			String mailCreador = creador.getEmail();
-			// Obtengo jefe de proyecto
-			User jefeProyecto = null;
-			// this.addMessage(this.getCurrentEntity().getAttribute("SE_JEFEPROYECTO").getValueAsString());
-			String valuejefeProy = this.getCurrentEntity().getAttribute("SE_JEFEPROYECTO").getValueAsString();
-			if (valuejefeProy.compareTo("José") == 0)
-				jefeProyecto = this.getUser("jrussomano");
-			else if (valuejefeProy.compareTo("Jorge") == 0)
-				jefeProyecto = this.getUser("jartave");
-			else if (valuejefeProy.compareTo("Federico") == 0)
-				jefeProyecto = this.getUser("froda");
-
-			String mailJefeProy = jefeProyecto.getEmail();
+			String encargado = currEnt.getAttribute("SE_JEFEPROYECTO").getValueAsString();
+			User usuarioCreador = currEnt.getCreator();
+			String mailUsuarioCreador = usuarioCreador.getEmail();
+			Collection<User> usEncargado = this.getGroup(encargado).getUsers();
+			String[] EmailCreador = { mailUsuarioCreador };
+			
 
 			String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
 			// ---------------------------------------------------------------------------
@@ -61,7 +53,7 @@ public class CompletarRA extends ApiaAbstractClass {
 
 			Attribute attHorasEsteAvance = currEnt.getAttribute("P2_RA_HORAS_EMPLEADAS_AVANCE");
 			Double horasEsteAvance = (Double) attHorasEsteAvance.getValue();
-
+			
 			Attribute attHorasEmpleadas = currEnt.getAttribute("P2_RA_HORAS_TOTALES_EMPLEADAS");
 			Double horasEmpleadas = (Double) attHorasEmpleadas.getValue();
 
@@ -75,13 +67,65 @@ public class CompletarRA extends ApiaAbstractClass {
 			Double cntB = (Double) currEnt.getAttribute("CONTADOR_AUX2").getValue();
 			int cnt2 = cntB.intValue();
 			
+			
+			
+			
+			// -------------------------------------------------------------------------------------------------------
+			// -------------------------------------------------------------------------------------------------------
+
+			boolean notificarA = true; // NOTIFICAR AL CREADOR 		 QUE SE SUPERÓ LA CANTIDAD DE DIAS ASIGNADAS
+			boolean notificarB = true; // NOTIFICAR AL JEFE DE PROYECTO QUE SE SUPERÓ LA CANTIDAD DE DIAS ASIGNADAS
+			boolean notificarC = true; // NOTIFICAR AL CREADOR			 QUE SE FINALIZÓ LA MITAD DE LA CAPACITACIÓN
+			boolean notificarD = true; // NOTIFICAR AL JEFE DE PROYECTO QUE SE FINALIZÓ LA MITAD DE LA CAPACITACIÓN
+
+			// -------------------------------------------------------------------------------------------------------
+			// -------------------------------------------------------------------------------------------------------
+			
 			if (horasHastaAhora > horasAsignadas && cnt1 == 0) {
-				Helpers.notificarSuperoHoras(this, nombreCreador, mailCreador, mailJefeProy, titulo);
+
+				if (notificarA) {
+					this.sendMail(EmailCreador, "Se superó la cantidad de horas asignadas",
+							"Se superó la cantidad de horas asignadas al proceso " + titulo + "."
+									+ "<br><br>Saludos,<br>Apia.");
+				}
+
+				if (notificarB) {
+					for (User u : usEncargado) {
+						String mail = u.getEmail();
+						String[] mailEnviar = { mail };
+						this.sendMail(mailEnviar, "Se superó la cantidad de horas asignadas",
+								"Se superó la cantidad de horas asignadas al proceso " + titulo + "."
+										+ "<br><br>Saludos,<br>Apia.");
+
+					}
+				}
+
 				currEnt.getAttribute("CONTADOR_AUX").setValue(1.0);
 			}
+
 			else if (horasHastaAhora >= mitadHorasAsignadas && cnt2 == 0) {
-				Helpers.notificarMitadHoras(this, nombreCreador, mailCreador, mailJefeProy, titulo);
+
+				if (notificarC) {
+					this.sendMail(EmailCreador, "Mitad de la capacitación finalizada",
+							"Según las horas que se han usado en la capacitación, aproximadamente la mitad del proceso "
+									+ titulo + " ha finalizado correctamente."
+									+ "<br><br>Gracias por usar Apia.<br>Saludos.");
+				}
+
+				if (notificarD) {
+					for (User u : usEncargado) {
+						String mail = u.getEmail();
+						String[] mailEnviar = { mail };
+						this.sendMail(mailEnviar, "Mitad de la capacitación finalizada",
+								"Según las horas que se han usado en la capacitación, aproximadamente la mitad del proceso "
+										+ titulo + " ha finalizado correctamente."
+										+ "<br><br>Gracias por usar Apia.<br>Saludos.");
+
+					}
+				}
+
 				currEnt.getAttribute("CONTADOR_AUX2").setValue(1.0);
+
 			}
 
 		}

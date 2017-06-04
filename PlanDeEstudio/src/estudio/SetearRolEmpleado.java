@@ -1,4 +1,4 @@
-package estudioTesting;
+package estudio;
 
 import com.dogma.busClass.ApiaAbstractClass;
 import com.dogma.busClass.BusClassException;

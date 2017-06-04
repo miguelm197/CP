@@ -1,10 +1,14 @@
 package estudio;
 
+import java.util.Collection;
+
 import com.dogma.busClass.ApiaAbstractClass;
 import com.dogma.busClass.BusClassException;
 import com.dogma.busClass.object.Attribute;
 import com.dogma.busClass.object.Entity;
 import com.dogma.busClass.object.User;
+
+import estudio.Helpers;
 
 
 // TODO: Auto-generated Javadoc
@@ -22,36 +26,41 @@ public class FinalizacionCR extends ApiaAbstractClass{
 	protected void executeClass() throws BusClassException {
 
 		Entity currEnt = this.getCurrentEntity();
+		User usuarioCreador = currEnt.getCreator();
+
+		String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
+		String encargado = currEnt.getAttribute("SE_JEFEPROYECTO").getValueAsString();
+
 		Attribute attFecha = currEnt.getAttribute("ESTUDIO_FECHA_FIN_STR");
 		Attribute combo = currEnt.getAttribute("P2_CR_COMPLETARORECHAZAR");
 		String comentarios = currEnt.getAttribute("P2_CR_COMENTARIOS").getValueAsString();
-
 		String estado = currEnt.getAttribute("ESTADO_ACTUAL_ESTUDIO").getValueAsString();
-		String mail = currEnt.getCreator().getEmail();
-		String titulo = currEnt.getAttribute("TITULO_SOL_ESTUDIO").getValueAsString();
 
-		User creador = currEnt.getCreator();
-		String nombreCreador = creador.getName();
-		
-		// Obtengo jefe de proyecto
-		User jefeProyecto = null;
-		// this.addMessage(this.getCurrentEntity().getAttribute("SE_JEFEPROYECTO").getValueAsString());
-		String valuejefeProy = this.getCurrentEntity().getAttribute("SE_JEFEPROYECTO").getValueAsString();
-		if (valuejefeProy.compareTo("José") == 0)
-			jefeProyecto = this.getUser("jrussomano");
-		else if (valuejefeProy.compareTo("Jorge") == 0)
-			jefeProyecto = this.getUser("jartave");
-		else if (valuejefeProy.compareTo("Federico") == 0)
-			jefeProyecto = this.getUser("froda");
+		String mailUsuarioCreador = usuarioCreador.getEmail();
+		Collection<User> usEncargado = this.getGroup(encargado).getUsers();
 
-		String mailJefeProy = jefeProyecto.getEmail();
-		
+		String[] EmailCreador = { mailUsuarioCreador };
+
 		if ((estado.compareTo("Completar o rechazar solicitud") == 0 && combo.getValueAsString().compareTo("2") == 0)) {
 			Helpers.setFecha(this, attFecha);
 			currEnt.getAttribute("PROCESO_FINALIZADO_EST_STR").setValue("SI");
 			currEnt.getAttribute("ESTADO_ACTUAL_ESTUDIO").setValue("Rechazado");
-			Helpers.notificarFinalizacionCR(this, nombreCreador, mail, mailJefeProy, titulo, comentarios);
-		}
 
+
+			this.sendMail(EmailCreador, "Capacitación rechazada",
+					"Se rechazó tu solicitud de capacitación correspondiente al proceso " + titulo
+							+ ".<br>Comentarios: " + comentarios + "<br><br>Gracias por usar Apia.<br>Saludos.");
+
+			for (User u : usEncargado) {
+				String mail = u.getEmail();
+
+				String[] mailEnviar = { mail };
+				this.sendMail(mailEnviar, "Capacitación rechazada",
+						"Se rechazó tu solicitud de capacitación correspondiente al proceso " + titulo
+								+ ".<br>Comentarios: " + comentarios + "<br><br>Gracias por usar Apia.<br>Saludos.");
+
+			}
+
+		}
 	}
 }

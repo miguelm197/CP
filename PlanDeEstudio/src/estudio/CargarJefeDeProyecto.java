@@ -18,20 +18,20 @@ public class CargarJefeDeProyecto extends ApiaAbstractClass {
 	 */
 	@Override
 	protected void executeClass() throws BusClassException {
-		
-		//Obtiene entidad y atributo
-		Entity currEnt = this.getCurrentEntity();
-		Attribute attJefes = currEnt.getAttribute("SE_JEFEPROYECTO");
-		
-		//Crea posibles valores
-		PossibleValue fede = new PossibleValue("Federico", "Federico");
-		PossibleValue jorge = new PossibleValue("Jorge", "Jorge");
-		PossibleValue jose = new PossibleValue("José", "José");
-		
-		//Agrega posibles valores al atributo
-		attJefes.addPossibleValues(fede);
-		attJefes.addPossibleValues(jorge);
-		attJefes.addPossibleValues(jose);
+		//SE DESHABILITO EN EL PROCESO
+//		//Obtiene entidad y atributo
+//		Entity currEnt = this.getCurrentEntity();
+//		Attribute attJefes = currEnt.getAttribute("SE_JEFEPROYECTO");
+//		
+//		//Crea posibles valores
+//		PossibleValue fede = new PossibleValue("Federico", "Federico");
+//		PossibleValue jorge = new PossibleValue("Jorge", "Jorge");
+//		PossibleValue jose = new PossibleValue("José", "José");
+//		
+//		//Agrega posibles valores al atributo
+//		attJefes.addPossibleValues(fede);
+//		attJefes.addPossibleValues(jorge);
+//		attJefes.addPossibleValues(jose);
 		
 	}
 

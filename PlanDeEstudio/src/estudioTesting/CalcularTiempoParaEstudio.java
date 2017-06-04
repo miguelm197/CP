@@ -13,7 +13,7 @@ public class CalcularTiempoParaEstudio extends ApiaAbstractClass {
 
 	@Override
 	protected void executeClass() throws BusClassException {
-
+		
 		Attribute attFechaInicio = this.getCurrentEntity().getAttribute("ECS_FECHAINICIO");
 		Attribute attFechaFin = this.getCurrentEntity().getAttribute("ECS_FECHAFIN");
 

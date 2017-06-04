@@ -20,7 +20,7 @@ public class AsignarRolJefeDeProyecto extends ApiaAbstractClass{
 
 		String[][] matriz = new String[7][6];
 
-		matriz[0][0] = "ADMINISTRACION_TESTING";matriz[0][1] = "MIGUEL";	matriz[0][2] = "MIGUEL";		matriz[0][3] = "ppi";			matriz[0][4] = "MIGUEL";		matriz[0][5] = "MIGUEL";
+		matriz[0][0] = "-admin";				matriz[0][1] = "-mmerelli";	matriz[0][2] = "-mmerelli";		matriz[0][3] = "-ppi";			matriz[0][4] = "-mmerelli";		matriz[0][5] = "-mmerelli";
 	//---------------------------------------------------------------------------------------------------------------------------------------------------------
 		matriz[1][0] = "mjacques";				matriz[1][1] = "jtolve";	matriz[1][2] = "mcamacho";		matriz[1][3] = "mmerelli";		matriz[1][4] = "kfabregat";		matriz[1][5] = "jrussomano";
 		matriz[2][0] = "mtilve";				matriz[2][1] = "eluna";		matriz[2][2] = "froda";			matriz[2][3] = "ppi";			matriz[2][4] = "sorrego";		matriz[2][5] = "mezquerra";
@@ -30,30 +30,39 @@ public class AsignarRolJefeDeProyecto extends ApiaAbstractClass{
 		matriz[6][0] = "-";						matriz[6][1] = "-";			matriz[6][2] = "-";				matriz[6][3] = "-";				matriz[6][4] = "fcairelo";		matriz[6][5] = "-";
 
 		
-		boolean notifica = false;
-		
-		
 		String buscado=usuario;
 		String buscando = "";
 		String encargado = "";
 		boolean bandera = false;
+
+		
+		boolean notifica = true;
+		
+		//this.addMessage("BUSCADO: " + buscado);
 		
 		for (int j = 0; j < matriz[0].length; j++) {
 			for (int i = 0; i < matriz.length; i++) {
 				
 				buscando = matriz[i][j];
+				//this.addMessage("buscando: " + buscando);
+				
 				if (buscando.equals(buscado)){	
-					encargado = matriz[0][j];
+					encargado = matriz[0][j].substring(1,matriz[0][j].length());
+					
+					//this.addMessage("POSIBLE encargado: " + encargado);
+					
 					bandera = true;
 					break;
 				}
 			}
 		}
 
-		if (notifica) {
-			if (bandera) {
-				currProc.setRol("JEFE_PROYECTO", encargado);
-				currEnt.getAttribute("SE_JEFEPROYECTO").setValue(encargado);
+		if (bandera) {
+			//this.addMessage("ENCARGADO: " + encargado);
+			currProc.setRol("JEFE_PROYECTO", encargado);
+			currEnt.getAttribute("SE_JEFEPROYECTO").setValue(encargado);
+
+			if (notifica) {
 				Collection<User> us = this.getGroup(encargado).getUsers();
 
 				String nombreCreador = ucreador.getName();
@@ -71,28 +80,15 @@ public class AsignarRolJefeDeProyecto extends ApiaAbstractClass{
 							fechaFin, comentarios);
 				}
 
-			} else {
-				String entidad = this.getCurrentEntity().getIdentifier();
-				throw new BusClassException(
-						" No se encontró su encargado directo, porfavor comuniquese con Miguel (miguel@fx2.com.uy).        Cod: "
-								+ entidad);
 			}
+		} else {
+			String entidad = this.getCurrentEntity().getIdentifier();
+			throw new BusClassException(
+					" No se encontró su encargado directo, porfavor comuniquese con Miguel (miguel@fx2.com.uy).        Cod: "
+							+ entidad);
 		}
-		
+
 		// Notifico al jefe de proyecto que inició el proceso de solicitud
-	
-		
- 
-		
-		 
-		
-
-	
-
-	
-
-		
-		
 	}
 
 }

@@ -10,11 +10,12 @@ public class AsignarRolIniciante extends ApiaAbstractClass {
 	protected void executeClass() throws BusClassException {
 		// TODO Auto-generated method stub
 	
-
-		Process proc = this.getCurrentProcess();
-		String iniciante = proc.getCreator().getLogin();
-
-		proc.setRol("INICIADOR", iniciante);
+//
+//		Process proc = this.getCurrentProcess();
+//		String iniciante = proc.getCreator().getLogin();
+//
+//		this.addMessage("rol iniciador: " + iniciante);
+//		proc.setRol("INICIADOR", iniciante);
 
 	}
 }

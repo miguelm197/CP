@@ -28,26 +28,26 @@ public class AsignarRolJefeDeProyecto extends ApiaAbstractClass{
 		String usuario = currProc.getCreator().getLogin().toString();
 		User ucreador = currProc.getCreator();
 
-      	String[][] matriz = new String[15][7];
-
-
-  		matriz[0][0] = "-froda";		matriz[0][1] = "-jartave";	matriz[0][2] = "-cfoucault";	matriz[0][3] = "-jrussomano";	matriz[0][4] = "-mezquerra";		matriz[0][5] = "-DIRECCION";	matriz[0][6] = "-fnoboa";
+		String[][] matriz = new String[15][7];
+		
+  		matriz[0][0] = "-froda";		matriz[0][1] = "-jartave";	matriz[0][2] = "-cfoucault";	matriz[0][3] = "-jrussomano";	matriz[0][4] = "-mezquerra";		matriz[0][5] = "-mmerelli";		matriz[0][6] = "-fnoboa";
   	//  	--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  		matriz[1][0] = "mjacques";		matriz[1][1] = "jtolve";	matriz[1][2] = "-";				matriz[1][3] = "mmerelli";		matriz[1][4] = "kfabregat";			matriz[1][5] = "jrussomano";	matriz[1][6] = "jmignaco";
-  		matriz[2][0] = "mtilve";		matriz[2][1] = "eluna";		matriz[2][2] = "froda";			matriz[2][3] = "ppi";			matriz[2][4] = "sorrego";			matriz[2][5] = "mezquerra";		matriz[2][6] = "-";
-  		matriz[3][0] = "-";				matriz[3][1] = "jbraganca";	matriz[3][2] = "vbonini";		matriz[3][3] = "fmartinez";		matriz[3][4] = "fnoboa";			matriz[3][5] = "fcairello";		matriz[3][6] = "-";
-  		matriz[4][0] = "-";				matriz[4][1] = "skucharski";matriz[4][2] = "lbarzilai";		matriz[4][3] = "agomez";		matriz[4][4] = "jartave";			matriz[4][5] = "yclames";		matriz[4][6] = "-";
-  		matriz[5][0] = "-";				matriz[5][1] = "-";			matriz[5][2] = "asaif";			matriz[5][3] = "glopez";		matriz[5][4] = "cfoucault";			matriz[5][5] = "-";				matriz[5][6] = "-";
-  		matriz[6][0] = "-";				matriz[6][1] = "-";			matriz[6][2] = "-";				matriz[6][3] = "-";				matriz[6][4] = "fcairelo";			matriz[6][5] = "-";				matriz[6][6] = "-";
-  		matriz[7][0] = "-";				matriz[7][1] = "-";			matriz[7][2] = "-";				matriz[7][3] = "-";				matriz[7][4] = "-";					matriz[7][5] = "-";				matriz[7][6] = "-";
-  		matriz[8][0] = "-";				matriz[8][1] = "-";			matriz[8][2] = "-";				matriz[8][3] = "-";				matriz[8][4] = "-";					matriz[8][5] = "-";				matriz[8][6] = "-";
-  		matriz[9][0] = "-";				matriz[9][1] = "-";			matriz[9][2] = "-";				matriz[9][3] = "-";				matriz[9][4] = "-";					matriz[9][5] = "-";				matriz[9][6] = "-";
+  		matriz[1][0] = "-";				matriz[1][1] = "-";			matriz[1][2] = "brodriguez";	matriz[1][3] = "ppi";			matriz[1][4] = "mnunez";			matriz[1][5] = "admin";		 	matriz[1][6] = "fcairello";
+  		matriz[2][0] = "-";				matriz[2][1] = "-";			matriz[2][2] = "jmignaco";		matriz[2][3] = "-";				matriz[2][4] = "sorrego";			matriz[2][5] = "-";				matriz[2][6] = "-";
+  		matriz[3][0] = "-";				matriz[3][1] = "-";			matriz[3][2] = "vbonini";		matriz[3][3] = "agomez";		matriz[3][4] = "fnoboa";			matriz[3][5] = "-";				matriz[3][6] = "-";
+  		matriz[4][0] = "-";				matriz[4][1] = "-";			matriz[4][2] = "lbarzilai";		matriz[4][3] = "glopez";		matriz[4][4] = "-";					matriz[4][5] = "-";				matriz[4][6] = "-";
+  		matriz[5][0] = "-";				matriz[5][1] = "-";			matriz[5][2] = "asaif";			matriz[5][3] = "jrussomano";	matriz[5][4] = "jbraganca";			matriz[5][5] = "-";				matriz[5][6] = "-";
+  		matriz[6][0] = "-";				matriz[6][1] = "-";			matriz[6][2] = "skucharski";	matriz[6][3] = "cfoucault";		matriz[6][4] = "mtilve";			matriz[6][5] = "-";				matriz[6][6] = "-";
+  		matriz[7][0] = "-";				matriz[7][1] = "-";			matriz[7][2] = "yclames";		matriz[7][3] = "eluna";			matriz[7][4] = "mezquerra";			matriz[7][5] = "-";				matriz[7][6] = "-";
+  		matriz[8][0] = "-";				matriz[8][1] = "-";			matriz[8][2] = "-";				matriz[8][3] = "froda";			matriz[8][4] = "mjacques";			matriz[8][5] = "-";				matriz[8][6] = "-";
+  		matriz[9][0] = "-";				matriz[9][1] = "-";			matriz[9][2] = "-";				matriz[9][3] = "jtolve";		matriz[9][4] = "mmerelli";			matriz[9][5] = "-";				matriz[9][6] = "-";
   		matriz[10][0] = "-";			matriz[10][1] = "-";		matriz[10][2] = "-";			matriz[10][3] = "-";			matriz[10][4] = "-";				matriz[10][5] = "-";			matriz[10][6] = "-";
   		matriz[11][0] = "-";			matriz[11][1] = "-";		matriz[11][2] = "-";			matriz[11][3] = "-";			matriz[11][4] = "-";				matriz[11][5] = "-";			matriz[11][6] = "-";
   		matriz[12][0] = "-";			matriz[12][1] = "-";		matriz[12][2] = "-";			matriz[12][3] = "-";			matriz[12][4] = "-";				matriz[12][5] = "-";			matriz[12][6] = "-";
   		matriz[13][0] = "-";			matriz[13][1] = "-";		matriz[13][2] = "-";			matriz[13][3] = "-";			matriz[13][4] = "-";				matriz[13][5] = "-";			matriz[13][6] = "-";
   		matriz[14][0] = "-";			matriz[14][1] = "-";		matriz[14][2] = "-";			matriz[14][3] = "-";			matriz[14][4] = "-";				matriz[14][5] = "-";			matriz[14][6] = "-";
     
+		   
 		String buscado=usuario;
 		String buscando = "";
 		String encargado = "";
